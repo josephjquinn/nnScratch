@@ -18,12 +18,15 @@ class DataProcessor:
     def get_features_and_labels(self):
         self.y_val = self.val[:, 0].T
         self.x_val = self.val[:, 1:].T
+        self.x_val = self.x_val / 255
 
         self.y_test = self.test[:, 0].T
         self.x_test = self.test[:, 1:].T
+        self.x_test = self.x_test / 255
 
         self.y_train = self.train[:, 0].T
         self.x_train = self.train[:, 1:].T
+        self.x_train = self.x_train / 255
 
     def print_shapes(self):
         print(self.y_train.shape)
