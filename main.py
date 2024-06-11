@@ -4,16 +4,10 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 
-processor = DataProcessor("./train.csv")
+processor = DataProcessor("./MNIST.csv")
 processor.split_data()
 processor.get_features_and_labels()
 processor.print_shapes()
-
-
-def make_predictions(X):
-    _, _, _, A2 = net.forward_prop(X)
-    predictions = get_predictions(A2)
-    return predictions
 
 
 def get_predictions(A2):
@@ -34,4 +28,12 @@ def test_prediction(index):
 
 
 net = nn()
+
+
 test_prediction(8)
+
+train_accuracy = net.get_accuracy(processor.x_train, processor.y_train)
+test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
+
+print(f"Training Accuracy: {train_accuracy * 100:.2f}%")
+print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
