@@ -1,6 +1,5 @@
 import numpy as np
-from activation import ReLU
-from activation import softmax
+from activation import ReLU, softmax, ReLU_deriv
 
 
 class nn:
@@ -12,7 +11,6 @@ class nn:
         self.W2 = np.random.rand(10, 10) - 0.5
         self.b1 = np.random.rand(10, 1) - 0.5
         self.b2 = np.random.rand(10, 1) - 0.5
-        self.learning_rate = 0.01
 
     def forward_prop(self, X):
         Z1 = self.W1.dot(X) + self.b1
@@ -22,31 +20,36 @@ class nn:
         return Z1, A1, Z2, A2
 
     def one_hot(self, Y):
-        one_hot_Y = np.zeros((Y.size, Y.max() + 1))
+        one_hot_Y = np.zeros((Y.size, 10))
         one_hot_Y[np.arange(Y.size), Y] = 1
         one_hot_Y = one_hot_Y.T
         return one_hot_Y
 
-    def backward_prop(self, Z1, A1, Z2, A2, W1, W2, X, Y):
+    def backward_prop(self, Z1, A1, Z2, A2, X, Y):
         m = X.shape[1]
-
-        dZ2 = A2 - Y
-        dW2 = (1 / m) * np.dot(dZ2, A1.T)
-        db2 = (1 / m) * np.sum(dZ2, axis=1, keepdims=True)
-        dZ1 = np.dot(W2.T, dZ2) * (A1 > 0)
-        dW1 = (1 / m) * np.dot(dZ1, X.T)
-        db1 = (1 / m) * np.sum(dZ1, axis=1, keepdims=True)
-
+        one_hot_Y = self.one_hot(Y)
+        dZ2 = A2 - one_hot_Y
+        dW2 = 1 / m * dZ2.dot(A1.T)
+        db2 = 1 / m * np.sum(dZ2, 1)
+        dZ1 = self.W2.T.dot(dZ2) * ReLU_deriv(Z1)
+        dW1 = 1 / m * dZ1.dot(X.T)
+        db1 = 1 / m * np.sum(dZ1, 1)
         return dW1, db1, dW2, db2
 
-    def optimize(self, dW1, db1, dW2, db2):
-        self.W1 = self.W1 - self.alpha * dW1
-        self.b1 = self.b1 - self.alpha * db1
-        self.W2 = self.W2 - self.alpha * dW2
-        self.b2 = self.b2 - self.alpha * db2
+    def optimize(self, dW1, db1, dW2, db2, alpha):
+        self.W1 -= alpha * dW1
+        self.b1 -= alpha * np.reshape(db1, (10, 1))
+        self.W2 -= alpha * dW2
+        self.b2 -= alpha * np.reshape(db2, (10, 1))
 
-    def train(self, X, val, epochs):
-        pass
+    def train(self, X, Y, epochs, alpha):
+        for i in range(epochs):
+            Z1, A1, Z2, A2 = self.forward_prop(X)
+            dW1, db1, dW2, db2 = self.backward_prop(Z1, A1, Z2, A2, X, Y)
+            self.optimize(dW1, db1, dW2, db2, alpha)
+            if i % 10 == 0:
+                accuracy = self.get_accuracy(X, Y)
+                print(f"Epoch {i}, Accuracy: {accuracy:.4f}")
 
     def predict(self, X):
         _, _, _, A2 = self.forward_prop(X)
