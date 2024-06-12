@@ -1,5 +1,4 @@
 import numpy as np
-from activation import softmax
 
 
 def MSE(act, pred):
@@ -24,15 +23,16 @@ def MAE(act, pred):
     loss = abs_diff.mean()
     return loss
 
+
 # def cross_entropy(A2, Y):
-#     m = Y.size  
+#     m = Y.size
 #     log_likelihood = -np.log(A2[Y, np.arange(m)])
 #     loss = np.sum(log_likelihood) / m
 #     return loss
 
 
 def cross_entropy(A2, Y):
-    m = Y.size  
+    m = Y.size
     log_likelihood = -np.log(A2[Y, np.arange(m)])
     loss = np.sum(log_likelihood) / m
     return loss
