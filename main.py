@@ -1,13 +1,12 @@
 from nn import nn
 from data import DataProcessor
-from matplotlib import pyplot as plt
 
 processor = DataProcessor("./MNIST.csv")
 processor.split_data()
 processor.get_features_and_labels()
 processor.print_shapes()
 
-net = nn()
+net = nn(10)
 
 
 # def test_prediction(index):
@@ -24,6 +23,7 @@ net = nn()
 
 
 # net.predict(processor.x_train, 45)
+net.predict(processor.x_train, 45)
 
 train_accuracy = net.get_accuracy(processor.x_train, processor.y_train)
 test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
@@ -31,7 +31,16 @@ test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
 print(f"Training Accuracy: {train_accuracy * 100:.2f}%")
 print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
 
-net.train(processor.x_train, processor.y_train, processor.x_dev, processor.y_dev, 100, 0.1)
+net.train_mini_batch(
+    processor.x_train,
+    processor.y_train,
+    processor.x_dev,
+    processor.y_dev,
+    100,
+    0.06,
+    10,
+)
+# net.train(processor.x_train, processor.y_train, processor.x_dev, processor.y_dev, 100, 0.1)
 
 train_accuracy = net.get_accuracy(processor.x_train, processor.y_train)
 test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
@@ -39,4 +48,5 @@ test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
 print(f"Training Accuracy after training: {train_accuracy * 100:.2f}%")
 print(f"Test Accuracy after training: {test_accuracy * 100:.2f}%")
 
+net.predict(processor.x_train, 45)
 # test_prediction(8)
