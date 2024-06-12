@@ -24,12 +24,15 @@ def MAE(act, pred):
     loss = abs_diff.mean()
     return loss
 
+# def cross_entropy(A2, Y):
+#     m = Y.size  
+#     log_likelihood = -np.log(A2[Y, np.arange(m)])
+#     loss = np.sum(log_likelihood) / m
+#     return loss
 
-def cross_entropy(y_pred, y_true):
-    y_pred = softmax(y_pred)
-    loss = 0
 
-    for i in range(len(y_pred)):
-        loss = loss + (-1 * y_true[i] * np.log(y_pred[i]))
-
+def cross_entropy(A2, Y):
+    m = Y.size  
+    log_likelihood = -np.log(A2[Y, np.arange(m)])
+    loss = np.sum(log_likelihood) / m
     return loss

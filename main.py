@@ -1,17 +1,13 @@
 from nn import nn
 from data import DataProcessor
 from matplotlib import pyplot as plt
-import numpy as np
-
 
 processor = DataProcessor("./MNIST.csv")
 processor.split_data()
 processor.get_features_and_labels()
 processor.print_shapes()
 
-
-def get_predictions(A2):
-    return np.argmax(A2, axis=0)
+net = nn()
 
 
 def test_prediction(index):
@@ -27,13 +23,19 @@ def test_prediction(index):
     plt.show()
 
 
-net = nn()
-
-
-test_prediction(8)
-
 train_accuracy = net.get_accuracy(processor.x_train, processor.y_train)
 test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
 
 print(f"Training Accuracy: {train_accuracy * 100:.2f}%")
 print(f"Test Accuracy: {test_accuracy * 100:.2f}%")
+
+net.train(processor.x_train, processor.y_train, 500, 0.10)
+
+train_accuracy = net.get_accuracy(processor.x_train, processor.y_train)
+test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
+
+print(f"Training Accuracy after training: {train_accuracy * 100:.2f}%")
+print(f"Test Accuracy after training: {test_accuracy * 100:.2f}%")
+
+net.plot_metrics()
+# test_prediction(8)
