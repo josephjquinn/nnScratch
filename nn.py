@@ -49,49 +49,64 @@ class nn:
         self.W2 -= alpha * dW2
         self.b2 -= alpha * db2
 
-    def train(self, X, Y, epochs, alpha):
-        self.losses = []
+    def train(self, X_train, Y_train, X_dev, Y_dev, epochs, alpha):
+        self.train_losses = []
+        self.val_losses = []
         self.accuracies = []
         for i in range(epochs):
-            Z1, A1, Z2, A2 = self.forward_prop(X)
-            dW1, db1, dW2, db2 = self.backward_prop(Z1, A1, Z2, A2, X, Y)
+            Z1, A1, Z2, A2 = self.forward_prop(X_train)
+            train_loss = cross_entropy(A2, Y_train)
+            dW1, db1, dW2, db2 = self.backward_prop(Z1, A1, Z2, A2, X_train, Y_train)
             self.optimize(dW1, db1, dW2, db2, alpha)
-            self.plot()
-            if i % 10 == 0:
-                accuracy = self.get_accuracy(X, Y)
-                loss = cross_entropy(A2, Y)
-                self.losses.append(loss)
-                self.accuracies.append(accuracy)
-                print(f"Epoch {i}, Accuracy: {accuracy:.4f}")
-                print(f"Loss {loss}")
-                print(loss)
 
-    def plot(self):
+            _, _, _, val_pred = self.forward_prop(X_dev)
+
+            val_loss = cross_entropy(val_pred, Y_dev)
+            accuracy = self.get_accuracy(X_dev, Y_dev)
+
+            self.train_losses.append(train_loss)
+            self.val_losses.append(val_loss)
+            self.accuracies.append(accuracy)
+            self.plot(persist=False)
+            if i % 10 == 0:
+                print(f"Epoch {i}, Accuracy: {accuracy:.4f}")
+                print(f"Train Loss {train_loss}, Val Loss {val_loss}")
+        self.plot(persist=True)
+
+    def plot(self, persist):
         plt.clf()
-        plt.title("Training...")
+        plt.subplot(1, 2, 1)
+        plt.title("Loss")
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
-        plt.plot(self.accuracies)
-        plt.plot(self.losses, "-r", label="train")
+        plt.plot(self.train_losses, "-r", label="train")
+        plt.plot(self.val_losses, "-b", label="val")
         plt.legend()
         plt.ylim(ymin=0)
+        plt.subplot(1, 2, 2)
+        plt.title("Accuracy")
+        plt.xlabel("Epoch")
+        plt.ylabel("Accuracy")
+        plt.plot(self.accuracies)
+        plt.ylim(0, 1)
         plt.show(block=False)
         plt.pause(0.01)
+        if persist:
+            plt.show()
 
-    def predict(self, X):
-        _, _, _, A2 = self.forward_prop(X)
-        pred = np.argmax(A2, axis=0)
-        return pred
+    def predict(self, X, index):
+        current_image = X[:, index, None]
+        _, _, _, A2 = self.forward_prop(current_image)
+        pred = np.argmax(A2)
+        print("Prediction: ", pred)
+        current_image = current_image.reshape((28, 28)) * 255
+        plt.gray()
+        plt.imshow(current_image, interpolation="nearest")
+        plt.show()
 
-    def get_predictions(self, A2):
-        return np.argmax(A2, axis=0)
-
-    def make_predictions(self, X):
-        _, _, _, A2 = self.forward_prop(X)
-        predictions = self.get_predictions(A2)
-        return predictions
 
     def get_accuracy(self, X, Y):
-        predictions = self.make_predictions(X)
-        accuracy = np.mean(predictions == Y)
+        _, _, _, A2 = self.forward_prop(X)
+        pred = np.argmax(A2, axis=0)
+        accuracy = np.mean(pred == Y)
         return accuracy

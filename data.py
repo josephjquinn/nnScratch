@@ -7,18 +7,19 @@ class DataProcessor:
     def __init__(self, filepath):
         self.data = pd.read_csv(filepath)
         self.data = np.array(self.data)
+        np.random.shuffle(self.data)
         self.m, self.n = self.data.shape
         self.v_sec = int(self.m * 0.1)
 
     def split_data(self):
-        self.val = self.data[0 : self.v_sec]
+        self.dev = self.data[0 : self.v_sec]
         self.test = self.data[self.v_sec : 2 * self.v_sec]
         self.train = self.data[2 * self.v_sec :]
 
     def get_features_and_labels(self):
-        self.y_val = self.val[:, 0].T
-        self.x_val = self.val[:, 1:].T
-        self.x_val = self.x_val / 255
+        self.y_dev = self.dev[:, 0].T
+        self.x_dev = self.dev[:, 1:].T
+        self.x_dev = self.x_dev / 255
 
         self.y_test = self.test[:, 0].T
         self.x_test = self.test[:, 1:].T
@@ -31,8 +32,8 @@ class DataProcessor:
     def print_shapes(self):
         print(self.y_train.shape)
         print(self.x_train.shape)
-        print(self.y_train)
-        print(self.x_train)
+        # print(self.y_train)
+        # print(self.x_train)
 
     def visualize_training_images(self):
         for i in range(self.x_train.shape[1]):
