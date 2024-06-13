@@ -113,12 +113,16 @@ class nn:
         self.train_losses = []
         self.val_losses = []
         self.accuracies = []
+        self.test = []
+        plt.ion()
+        plt.figure(figsize=(15, 6))
 
         if mini_batch:
             num_batches = X_train.shape[1] // batch_size
 
         for i in range(epochs):
             if mini_batch:
+                print(num_batches)
                 for j in range(num_batches):
                     start = j * batch_size
                     end = (j + 1) * batch_size
@@ -131,6 +135,17 @@ class nn:
                         Z1, A1, Z2, A2, X_batch, Y_batch
                     )
                     self.optimize(dW1, db1, dW2, db2, alpha)
+
+                    _, _, _, val_pred = self.forward_prop(X_dev)
+                    val_loss = cross_entropy(val_pred, Y_dev)
+                    accuracy = self.get_accuracy(X_dev, Y_dev)
+
+                    self.train_losses.append(train_loss)
+                    self.val_losses.append(val_loss)
+                    self.accuracies.append(accuracy)
+                    self.test.append(i + 4)
+
+                    self.plot()
             else:
                 Z1, A1, Z2, A2 = self.forward_prop(X_train)
                 train_loss = cross_entropy(A2, Y_train)
@@ -138,17 +153,16 @@ class nn:
                     Z1, A1, Z2, A2, X_train, Y_train
                 )
                 self.optimize(dW1, db1, dW2, db2, alpha)
+                _, _, _, val_pred = self.forward_prop(X_dev)
+                val_loss = cross_entropy(val_pred, Y_dev)
+                accuracy = self.get_accuracy(X_dev, Y_dev)
 
-            _, _, _, val_pred = self.forward_prop(X_dev)
-            val_loss = cross_entropy(val_pred, Y_dev)
-            accuracy = self.get_accuracy(X_dev, Y_dev)
+                self.train_losses.append(train_loss)
+                self.val_losses.append(val_loss)
+                self.accuracies.append(accuracy)
+                self.test.append(i + 4)
 
-            self.train_losses.append(train_loss)
-            self.val_losses.append(val_loss)
-            self.accuracies.append(accuracy)
-
-            if animate:
-                self.plot(persist=False)
+                self.plot()
 
             if cmd:
                 if i % 10 == 0:
@@ -156,12 +170,11 @@ class nn:
                     print(f"Train Loss {train_loss}, Val Loss {val_loss}")
 
         if plot:
-            self.plot(persist=True)
+            plt.ioff()
+            plt.show()
 
-    def plot(self, persist):
-        plt.ion()
+    def plot(self):
         plt.clf()
-
         plt.subplot(1, 2, 1)
         plt.title("Loss")
         plt.xlabel("Epoch")
@@ -178,8 +191,6 @@ class nn:
         plt.ylim(0, 1)
         plt.show()
         plt.pause(0.1)
-        if persist:
-            plt.show()
 
     def predict_index(self, X, index):
         current_image = X[:, index, None]
