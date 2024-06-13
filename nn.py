@@ -113,7 +113,6 @@ class nn:
         self.train_losses = []
         self.val_losses = []
         self.accuracies = []
-        self.test = []
         plt.ion()
         plt.figure(figsize=(15, 6))
 
@@ -136,16 +135,7 @@ class nn:
                     )
                     self.optimize(dW1, db1, dW2, db2, alpha)
 
-                    _, _, _, val_pred = self.forward_prop(X_dev)
-                    val_loss = cross_entropy(val_pred, Y_dev)
-                    accuracy = self.get_accuracy(X_dev, Y_dev)
-
-                    self.train_losses.append(train_loss)
-                    self.val_losses.append(val_loss)
-                    self.accuracies.append(accuracy)
-                    self.test.append(i + 4)
-
-                    self.plot()
+                    self.print_batch_result(j, num_batches, train_loss)
             else:
                 Z1, A1, Z2, A2 = self.forward_prop(X_train)
                 train_loss = cross_entropy(A2, Y_train)
@@ -153,25 +143,32 @@ class nn:
                     Z1, A1, Z2, A2, X_train, Y_train
                 )
                 self.optimize(dW1, db1, dW2, db2, alpha)
-                _, _, _, val_pred = self.forward_prop(X_dev)
-                val_loss = cross_entropy(val_pred, Y_dev)
-                accuracy = self.get_accuracy(X_dev, Y_dev)
+            _, _, _, val_pred = self.forward_prop(X_dev)
+            val_loss = cross_entropy(val_pred, Y_dev)
+            accuracy = self.get_accuracy(X_dev, Y_dev)
 
-                self.train_losses.append(train_loss)
-                self.val_losses.append(val_loss)
-                self.accuracies.append(accuracy)
-                self.test.append(i + 4)
+            self.train_losses.append(train_loss)
+            self.val_losses.append(val_loss)
+            self.accuracies.append(accuracy)
 
-                self.plot()
+            self.plot()
 
             if cmd:
                 if i % 10 == 0:
-                    print(f"Epoch {i}, Accuracy: {accuracy:.4f}")
-                    print(f"Train Loss {train_loss}, Val Loss {val_loss}")
+                    self.print_epoch_result(i, accuracy, train_loss, val_loss)
 
         if plot:
             plt.ioff()
             plt.show()
+
+    def print_epoch_result(self, epoch, acc, train_loss, val_loss):
+        print("_________________________")
+        print(f"Epoch {epoch}, Accuracy: {acc:.4f}")
+        print(f"Train Loss {train_loss}, Val Loss {val_loss}")
+        print("_________________________")
+
+    def print_batch_result(self, batch, num_batches, train_loss):
+        print(f"Batch {batch}/{num_batches}, Train Loss: {train_loss}")
 
     def plot(self):
         plt.clf()
