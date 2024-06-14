@@ -1,33 +1,73 @@
 from nn import nn
 from data import DataProcessor
 
-processor = DataProcessor("./fashion-mnist_train.csv")
-processor.split_data()
-processor.get_features_and_labels()
-processor.print_shapes()
+fashion_data = "./fashion-mnist_train.csv"
+numeric_data = "./numeric-mnist.csv"
 
-net = nn(10, "relu", "He")
+numeric_labels = {
+    0: "zero",
+    1: "one",
+    2: "two",
+    3: "three",
+    4: "four",
+    5: "five",
+    6: "six",
+    7: "seven",
+    8: "eight",
+    9: "nine",
+}
+
+fashion_labels = {
+    0: "T-shirt/top",
+    1: "Trouser",
+    2: "Pullover",
+    3: "Dress",
+    4: "Coat",
+    5: "Sandal",
+    6: "Shirt",
+    7: "Sneaker",
+    8: "Bag",
+    9: "Ankle boot",
+}
 
 
-# net.predict(processor.x_train, 45)
-# net.predict_grid(processor.x_test, 3)
+data_loader = DataProcessor(numeric_data)
+data_loader.split_data()
+data_loader.get_features_and_labels()
+data_loader.print_shapes()
+
+net = nn(
+    input_nodes=784,
+    hidden_nodes=10,
+    output_nodes=10,
+    act="relu",
+    initialization="He",
+    labels=numeric_labels,
+)
+
+
+net.predict_grid(data_loader.x_test, 3)
+
+
+test_accuracy = net.get_accuracy(data_loader.x_test, data_loader.y_test)
+print(f"Test Accuracy before training: {test_accuracy * 100:.2f}%")
 
 net.train(
-    processor.x_train,
-    processor.y_train,
-    processor.x_dev,
-    processor.y_dev,
+    X_train=data_loader.x_train,
+    Y_train=data_loader.y_train,
+    X_dev=data_loader.x_dev,
+    Y_dev=data_loader.y_dev,
     alpha=0.1,
     mini_batch=True,
     batch_size=100,
-    epochs=10,
+    epochs=50,
     animate=True,
+    plot=True,
+    cmd=True,
 )
 
-test_accuracy = net.get_accuracy(processor.x_test, processor.y_test)
-
+test_accuracy = net.get_accuracy(data_loader.x_test, data_loader.y_test)
 print(f"Test Accuracy after training: {test_accuracy * 100:.2f}%")
 
-net.predict_grid(processor.x_test, 3)
-# net.predict_grid(processor.x_train, 3)
-# net.predict(processor.x_train, 45)
+net.predict_grid(data_loader.x_test, 3)
+net.predict(data_loader.x_train, 45)

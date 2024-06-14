@@ -5,8 +5,21 @@ from matplotlib import pyplot as plt
 
 
 class nn:
-    def __init__(self, hidden_nodes, act, initialization="rand"):
+    def __init__(
+        self,
+        input_nodes,
+        hidden_nodes,
+        output_nodes,
+        act,
+        initialization="rand",
+        labels=None,
+    ):
         self.hidden_nodes = hidden_nodes
+        self.input_nodes = input_nodes
+        self.output_nodes = output_nodes
+        self.labels = (
+            labels if labels is not None else {i: str(i) for i in range(output_nodes)}
+        )
         self.initialization = initialization
         self.initialize_parameters()
         if act == "sigmoid":
@@ -19,36 +32,33 @@ class nn:
             raise ValueError("Invalid activation function")
 
     def initialize_parameters(self):
-        input_nodes = 784
-        output_nodes = 10
-
         if self.initialization == "normalization":
-            self.W1 = np.random.normal(size=(self.hidden_nodes, input_nodes)) * np.sqrt(
-                1.0 / input_nodes
-            )
+            self.W1 = np.random.normal(
+                size=(self.hidden_nodes, self.input_nodes)
+            ) * np.sqrt(1.0 / self.input_nodes)
             self.b1 = np.random.normal(size=(self.hidden_nodes, 1)) * np.sqrt(
                 1.0 / self.hidden_nodes
             )
             self.W2 = np.random.normal(
-                size=(output_nodes, self.hidden_nodes)
+                size=(self.output_nodes, self.hidden_nodes)
             ) * np.sqrt(1.0 / self.hidden_nodes)
-            self.b2 = np.random.normal(size=(output_nodes, 1)) * np.sqrt(
+            self.b2 = np.random.normal(size=(self.output_nodes, 1)) * np.sqrt(
                 1.0 / self.hidden_nodes
             )
         elif self.initialization == "He":
-            self.W1 = np.random.normal(size=(self.hidden_nodes, input_nodes)) * np.sqrt(
-                2.0 / input_nodes
-            )
+            self.W1 = np.random.normal(
+                size=(self.hidden_nodes, self.input_nodes)
+            ) * np.sqrt(2.0 / self.input_nodes)
             self.b1 = np.zeros((self.hidden_nodes, 1))
             self.W2 = np.random.normal(
-                size=(output_nodes, self.hidden_nodes)
+                size=(self.output_nodes, self.hidden_nodes)
             ) * np.sqrt(2.0 / self.hidden_nodes)
-            self.b2 = np.zeros((output_nodes, 1))
+            self.b2 = np.zeros((self.output_nodes, 1))
         elif self.initialization == "rand":
-            self.W1 = np.random.rand(self.hidden_nodes, input_nodes) - 0.5
+            self.W1 = np.random.rand(self.hidden_nodes, self.input_nodes) - 0.5
             self.b1 = np.random.rand(self.hidden_nodes, 1) - 0.5
-            self.W2 = np.random.rand(output_nodes, self.hidden_nodes) - 0.5
-            self.b2 = np.random.rand(output_nodes, 1) - 0.5
+            self.W2 = np.random.rand(self.output_nodes, self.hidden_nodes) - 0.5
+            self.b2 = np.random.rand(self.output_nodes, 1) - 0.5
         else:
             raise ValueError("Invalid initialization function")
 
@@ -123,7 +133,7 @@ class nn:
                         Z1, A1, Z2, A2, X_batch, Y_batch
                     )
                     self.optimize(dW1, db1, dW2, db2, alpha)
-                    self.print_batch_result(j, num_batches, train_loss)
+                    self.print_batch_result(j + 1, num_batches, train_loss)
                 self.train_losses.append(sum(cur_batch_loss) / num_batches)
             else:
                 Z1, A1, Z2, A2 = self.forward_prop(X_train)
@@ -166,7 +176,7 @@ class nn:
             rows = 2
         plt.clf()
         plt.subplot(rows, 2, 1)
-        plt.title("Loss")
+        plt.title("Epoch Loss")
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
         plt.plot(self.train_losses, "-r", label="train")
@@ -181,18 +191,23 @@ class nn:
         plt.ylim(0, 1)
         if mb:
             plt.subplot(2, 2, (3, 4))
-            plt.plot(self.batch_loss, linewidth=.2)
+            plt.plot(self.batch_loss, linewidth=0.2)
+            plt.title("Batch Loss")
+            plt.xlabel("Batch")
+            plt.ylabel("Loss")
+            plt.subplots_adjust(hspace=0.4)
         plt.show()
         plt.pause(0.1)
 
-    def predict_index(self, X, index):
+    def predict_single(self, X, index):
         current_image = X[:, index, None]
         _, _, _, A2 = self.forward_prop(current_image)
         pred = np.argmax(A2)
-        print("Prediction: ", pred)
         current_image = current_image.reshape((28, 28)) * 255
         plt.gray()
         plt.imshow(current_image, interpolation="nearest")
+        pred_label = self.labels[pred]
+        plt.title(f"Pred: {pred_label}", fontsize=15)
         plt.show()
 
     def predict_grid(self, X, grid_size):
@@ -211,9 +226,8 @@ class nn:
                 grid_images[i, j] = current_image.reshape((28, 28)) * 255
                 plt.subplot(grid_size, grid_size, i * grid_size + j + 1)
                 plt.imshow(grid_images[i, j], cmap="gray")
-                plt.text(
-                    0, 30, f"Pred: {pred}", color="red", fontsize=12, weight="bold"
-                )
+                pred_label = self.labels[pred]
+                plt.title(f"Pred: {pred_label}", fontsize=15)
                 plt.axis("off")
 
         plt.show()
