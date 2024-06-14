@@ -49,7 +49,7 @@ class DataProcessor:
 
 
 if __name__ == "__main__":
-    processor = DataProcessor("./MNIST.csv")
+    processor = DataProcessor("./data/numeric-mnist.csv")
     processor.split_data()
     processor.get_features_and_labels()
     processor.print_shapes()
