@@ -5,20 +5,6 @@ from matplotlib import pyplot as plt
 
 
 class nn:
-    # def __init__(self):
-    #     self.initialize_parameters()
-    #
-    # def initialize_parameters(self):
-    #     # self.W1 = np.random.rand(10, 784) - 0.5
-    #     # self.W2 = np.random.rand(10, 10) - 0.5
-    #     # self.b1 = np.random.rand(10, 1) - 0.5
-    #     # self.b2 = np.random.rand(10, 1) - 0.5
-    #     #
-    #     self.W1 = np.random.normal(size=(10, 784)) * np.sqrt(1.0 / (784))
-    #     self.b1 = np.random.normal(size=(10, 1)) * np.sqrt(1.0 / 10)
-    #     self.W2 = np.random.normal(size=(10, 10)) * np.sqrt(1.0 / 20)
-    #     self.b2 = np.random.normal(size=(10, 1)) * np.sqrt(1.0 / (784))
-
     def __init__(self, hidden_nodes, act, initialization="rand"):
         self.hidden_nodes = hidden_nodes
         self.initialization = initialization
@@ -113,6 +99,7 @@ class nn:
         self.train_losses = []
         self.val_losses = []
         self.accuracies = []
+        self.batch_loss = []
         plt.ion()
         plt.figure(figsize=(15, 6))
 
@@ -121,7 +108,7 @@ class nn:
 
         for i in range(epochs):
             if mini_batch:
-                print(num_batches)
+                cur_batch_loss = []
                 for j in range(num_batches):
                     start = j * batch_size
                     end = (j + 1) * batch_size
@@ -130,15 +117,18 @@ class nn:
 
                     Z1, A1, Z2, A2 = self.forward_prop(X_batch)
                     train_loss = cross_entropy(A2, Y_batch)
+                    cur_batch_loss.append(train_loss)
+                    self.batch_loss.append(train_loss)
                     dW1, db1, dW2, db2 = self.backward_prop(
                         Z1, A1, Z2, A2, X_batch, Y_batch
                     )
                     self.optimize(dW1, db1, dW2, db2, alpha)
-
                     self.print_batch_result(j, num_batches, train_loss)
+                self.train_losses.append(sum(cur_batch_loss) / num_batches)
             else:
                 Z1, A1, Z2, A2 = self.forward_prop(X_train)
                 train_loss = cross_entropy(A2, Y_train)
+                self.train_losses.append(train_loss)
                 dW1, db1, dW2, db2 = self.backward_prop(
                     Z1, A1, Z2, A2, X_train, Y_train
                 )
@@ -147,18 +137,18 @@ class nn:
             val_loss = cross_entropy(val_pred, Y_dev)
             accuracy = self.get_accuracy(X_dev, Y_dev)
 
-            self.train_losses.append(train_loss)
             self.val_losses.append(val_loss)
             self.accuracies.append(accuracy)
 
-            self.plot()
+            if animate:
+                self.plot(mini_batch)
 
             if cmd:
                 if i % 10 == 0:
                     self.print_epoch_result(i, accuracy, train_loss, val_loss)
 
+        plt.ioff()
         if plot:
-            plt.ioff()
             plt.show()
 
     def print_epoch_result(self, epoch, acc, train_loss, val_loss):
@@ -170,9 +160,12 @@ class nn:
     def print_batch_result(self, batch, num_batches, train_loss):
         print(f"Batch {batch}/{num_batches}, Train Loss: {train_loss}")
 
-    def plot(self):
+    def plot(self, mb):
+        rows = 1
+        if mb:
+            rows = 2
         plt.clf()
-        plt.subplot(1, 2, 1)
+        plt.subplot(rows, 2, 1)
         plt.title("Loss")
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
@@ -180,12 +173,15 @@ class nn:
         plt.plot(self.val_losses, "-b", label="val")
         plt.legend()
         plt.ylim(ymin=0)
-        plt.subplot(1, 2, 2)
+        plt.subplot(rows, 2, 2)
         plt.title("Accuracy")
         plt.xlabel("Epoch")
         plt.ylabel("Accuracy")
         plt.plot(self.accuracies)
         plt.ylim(0, 1)
+        if mb:
+            plt.subplot(2, 2, (3, 4))
+            plt.plot(self.batch_loss, linewidth=.2)
         plt.show()
         plt.pause(0.1)
 
@@ -213,10 +209,11 @@ class nn:
                 pred = np.argmax(A2)
                 grid_predictions[i, j] = pred
                 grid_images[i, j] = current_image.reshape((28, 28)) * 255
-
                 plt.subplot(grid_size, grid_size, i * grid_size + j + 1)
                 plt.imshow(grid_images[i, j], cmap="gray")
-                print(grid_predictions[i, j])
+                plt.text(
+                    0, 30, f"Pred: {pred}", color="red", fontsize=12, weight="bold"
+                )
                 plt.axis("off")
 
         plt.show()
