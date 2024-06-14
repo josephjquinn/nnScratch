@@ -1,4 +1,3 @@
-import pytest
 import numpy as np
 from nn import nn
 
@@ -86,9 +85,3 @@ def test_training():
     assert len(net.train_losses) == epochs
     assert len(net.val_losses) == epochs
     assert len(net.accuracies) == epochs
-
-
-
-
-if __name__ == "__main__":
-    pytest.main()
