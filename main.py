@@ -37,10 +37,10 @@ data_loader.get_features_and_labels()
 
 net = nn(
     input_nodes=784,
-    hidden_nodes=10,
+    hidden_nodes=50,
     output_nodes=10,
     act="relu",
-    initialization="rand",
+    initialization="norm",
     labels=numeric_labels,
 )
 
@@ -55,9 +55,9 @@ net.train(
     X_dev=data_loader.x_dev,
     Y_dev=data_loader.y_dev,
     mini_batch=True,
-    batch_size=4000,
+    batch_size=1000,
     alpha=0.5,
-    epochs=20,
+    epochs=25,
     animate=True,
     plot=True,
     cmd=True,
