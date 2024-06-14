@@ -1,8 +1,8 @@
 from nn import nn
 from data import DataProcessor
 
-fashion_data = "./fashion-mnist_train.csv"
-numeric_data = "./numeric-mnist.csv"
+# fashion_data = "./data/fashion-mnist.csv"
+numeric_data = "./data/numeric-mnist.csv"
 
 numeric_labels = {
     0: "zero",
@@ -17,38 +17,35 @@ numeric_labels = {
     9: "nine",
 }
 
-fashion_labels = {
-    0: "T-shirt/top",
-    1: "Trouser",
-    2: "Pullover",
-    3: "Dress",
-    4: "Coat",
-    5: "Sandal",
-    6: "Shirt",
-    7: "Sneaker",
-    8: "Bag",
-    9: "Ankle boot",
-}
+# fashion_labels = {
+#     0: "T-shirt/top",
+#     1: "Trouser",
+#     2: "Pullover",
+#     3: "Dress",
+#     4: "Coat",
+#     5: "Sandal",
+#     6: "Shirt",
+#     7: "Sneaker",
+#     8: "Bag",
+#     9: "Ankle boot",
+# }
 
 
 data_loader = DataProcessor(numeric_data)
 data_loader.split_data()
 data_loader.get_features_and_labels()
-data_loader.print_shapes()
 
 net = nn(
     input_nodes=784,
     hidden_nodes=10,
     output_nodes=10,
     act="relu",
-    initialization="He",
+    initialization="rand",
     labels=numeric_labels,
 )
 
 
 net.predict_grid(data_loader.x_test, 3)
-
-
 test_accuracy = net.get_accuracy(data_loader.x_test, data_loader.y_test)
 print(f"Test Accuracy before training: {test_accuracy * 100:.2f}%")
 
@@ -57,10 +54,10 @@ net.train(
     Y_train=data_loader.y_train,
     X_dev=data_loader.x_dev,
     Y_dev=data_loader.y_dev,
-    alpha=0.1,
     mini_batch=True,
-    batch_size=100,
-    epochs=50,
+    batch_size=4000,
+    alpha=0.5,
+    epochs=20,
     animate=True,
     plot=True,
     cmd=True,
@@ -68,6 +65,4 @@ net.train(
 
 test_accuracy = net.get_accuracy(data_loader.x_test, data_loader.y_test)
 print(f"Test Accuracy after training: {test_accuracy * 100:.2f}%")
-
 net.predict_grid(data_loader.x_test, 3)
-net.predict(data_loader.x_train, 45)

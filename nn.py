@@ -32,7 +32,7 @@ class nn:
             raise ValueError("Invalid activation function")
 
     def initialize_parameters(self):
-        if self.initialization == "normalization":
+        if self.initialization == "norm":
             self.W1 = np.random.normal(
                 size=(self.hidden_nodes, self.input_nodes)
             ) * np.sqrt(1.0 / self.input_nodes)
@@ -163,7 +163,7 @@ class nn:
 
     def print_epoch_result(self, epoch, acc, train_loss, val_loss):
         print("_________________________")
-        print(f"Epoch {epoch}, Accuracy: {acc:.4f}")
+        print(f"Epoch {epoch + 1}, Accuracy: {acc:.4f}")
         print(f"Train Loss {train_loss}, Val Loss {val_loss}")
         print("_________________________")
 
