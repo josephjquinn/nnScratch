@@ -30,10 +30,12 @@ class DataProcessor:
         self.x_train = self.x_train / 255
 
     def print_shapes(self):
-        print(self.y_train.shape)
-        print(self.x_train.shape)
-        # print(self.y_train)
-        # print(self.x_train)
+        print("Y Train", self.y_train.shape)
+        print("X Train", self.x_train.shape)
+        print("Y Dev", self.y_dev.shape)
+        print("X Dev", self.x_dev.shape)
+        print("Y Test", self.y_test.shape)
+        print("X Test", self.x_test.shape)
 
     def visualize_training_images(self):
         for i in range(self.x_train.shape[1]):
@@ -50,4 +52,5 @@ if __name__ == "__main__":
     processor = DataProcessor("./MNIST.csv")
     processor.split_data()
     processor.get_features_and_labels()
+    processor.print_shapes()
     processor.visualize_training_images()
