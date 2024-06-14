@@ -6,9 +6,15 @@ This repository contains a simple neural network implementation in Python, desig
 
 Hand Gesture Recognition is a project designed to enable real-time interpretation of hand gestures using computer vision and machine learning techniques. By harnessing the capabilities of the Mediapipe library for hand tracking and the Random Forest classifier for gesture classification, this project offers a simple yet effective solution for recognizing and understanding hand gestures.
 
-![Figure_1](https://github.com/josephjquinn/asl-model/assets/81782398/651c56d5-bbc7-49d0-971b-fa75aba3a667)
-![Figure_2](https://github.com/josephjquinn/asl-model/assets/81782398/9f25fc88-c3d2-4b69-933c-18239dc2dae2)
-![Figure_3](https://github.com/josephjquinn/asl-model/assets/81782398/86428435-dec7-4268-a8ae-bc672fabcc3a)
+<img width="369" alt="optimi" src="https://github.com/josephjquinn/nnScratch/assets/81782398/241186bc-f740-440d-ae8b-595646484c4b">
+<img width="354" alt="netstructure" src="https://github.com/josephjquinn/nnScratch/assets/81782398/100f17ea-01c9-46eb-b0f4-ead7c809e311">
+<img width="407" alt="hypergraph" src="https://github.com/josephjquinn/nnScratch/assets/81782398/52bc020c-e892-42cf-806c-1182ebf4171e">
+<img width="407" alt="hyper" src="https://github.com/josephjquinn/nnScratch/assets/81782398/cf359031-cec3-4cc3-a993-86ba6c0b4c57">
+<img width="389" alt="gradient" src="https://github.com/josephjquinn/nnScratch/assets/81782398/3f02f8bb-e08f-447c-8ee1-f525df7162c0">
+<img width="343" alt="data" src="https://github.com/josephjquinn/nnScratch/assets/81782398/491bdc25-d86c-46cb-8ab6-2933de84b4f6">
+<img width="363" alt="calc" src="https://github.com/josephjquinn/nnScratch/assets/81782398/454b8ad9-5bf6-464f-aa76-d2023e987208">
+<img width="406" alt="backprop" src="https://github.com/josephjquinn/nnScratch/assets/81782398/2f602d65-bfbe-4932-b72d-1236edff12f8">
+
 
 
 ### Features
