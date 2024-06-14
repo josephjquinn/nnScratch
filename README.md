@@ -3,6 +3,11 @@
 This project was a learning project for me to better understand the fundamentals of Neural Networks and their architecture. I created this class without using any machine learning libraries doing most of the calculations by hand.
 This repository contains a simple neural network implementation in Python, designed for educational purposes. The neural network supports customizable architecture and training options.
 
+<img width="1500" alt="image" src="https://github.com/josephjquinn/nnScratch/assets/81782398/a3639018-49b6-4e43-98b0-e22db49b920d">
+<img width="897" alt="image" src="https://github.com/josephjquinn/nnScratch/assets/81782398/bac57e3d-94e1-437e-9816-2a624d236ec2">
+<img width="901" alt="image" src="https://github.com/josephjquinn/nnScratch/assets/81782398/5c7f234b-fe49-4ac0-b8d5-b764a869e502">
+
+
 ### Features
 
 - Activation Functions: Supports ReLU, Sigmoid, and Leaky ReLU activation functions.
