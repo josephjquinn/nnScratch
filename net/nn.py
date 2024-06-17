@@ -1,6 +1,6 @@
-from loss import cross_entropy
+from net.loss import cross_entropy
 import numpy as np
-from activation import ReLU, sigmoid, softmax, leaky_relu
+from net.activation import ReLU, sigmoid, softmax, leaky_relu
 from matplotlib import pyplot as plt
 
 

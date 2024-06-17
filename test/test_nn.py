@@ -1,5 +1,5 @@
 import numpy as np
-from nn import nn
+from net.nn import nn
 
 
 def create_synthetic_data(num_samples, num_features, num_classes):

@@ -1,4 +1,4 @@
-from nn import nn
+from net.nn import nn
 from data import DataProcessor
 
 # fashion_data = "./data/fashion-mnist.csv"
