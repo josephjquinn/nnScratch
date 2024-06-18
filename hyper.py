@@ -92,19 +92,13 @@ def plot_dual(data, title, xaxi, yaxi, x_key=None, y_key=None):
     fig, ax = plt.subplots()
     im = ax.imshow(Z, cmap="plasma", origin="lower")
 
-    print(x_labels)
-    print(y_labels)
-
-    # Show all ticks and label them with the respective list entries
     ax.set_xticks(np.arange(len(unique_x)))
     ax.set_xticklabels(x_labels)
     ax.set_yticks(np.arange(len(unique_y)))
     ax.set_yticklabels(y_labels)
 
-    # Rotate the tick labels and set their alignment
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right", rotation_mode="anchor")
 
-    # Loop over data dimensions and create text annotations
     for i in range(len(unique_y)):
         for j in range(len(unique_x)):
             ax.text(
@@ -171,7 +165,7 @@ def optim_lr_hl():
                 processor.x_dev,
                 processor.y_dev,
                 alpha=j,
-                epochs=20,
+                epochs=100,
                 animate=False,
                 plot=False,
             )
