@@ -39,7 +39,7 @@ def plot_hyper(data, hyperparam, key=None):
             tmp.append(key[i])
         param = tmp
     acc = data[:, 1]
-    plt.figure()
+    plt.figure(figsize=(10, 6))
     plt.plot(param, acc, marker="o")
     plt.xlabel(hyperparam)
     plt.ylabel("Test Accuracy")
@@ -52,7 +52,7 @@ def plot_hyper_loss(data, param, key=None):
     losses = data[:, 2:]
     labels = data[:, 0]
     epochs = losses[0].size
-    plt.figure()
+    plt.figure(figsize=(10, 6))
     for label, loss in zip(labels, losses):
         if key:
             label = int(label)
@@ -89,8 +89,8 @@ def plot_dual(data, title, xaxi, yaxi, x_key=None, y_key=None):
             mask = (x == unique_x[i]) & (y == unique_y[j])
             Z[j, i] = z[mask][0] if np.any(mask) else np.nan
 
-    fig, ax = plt.subplots()
-    im = ax.imshow(Z, cmap="plasma", origin="lower")
+    fig, ax = plt.subplots(figsize=(10, 6))
+    im = ax.imshow(Z, cmap="viridis", origin="lower")
 
     ax.set_xticks(np.arange(len(unique_x)))
     ax.set_xticklabels(x_labels)
@@ -109,12 +109,12 @@ def plot_dual(data, title, xaxi, yaxi, x_key=None, y_key=None):
                 va="center",
                 color="w",
             )
-
     ax.set_title(title)
     ax.set_xlabel(xaxi)
-    ax.set_ylabel(yaxi)
+    ax.set_ylabel(yaxi, rotation=-90, va="top")
     fig.tight_layout()
-    plt.colorbar(im)
+    cbar = plt.colorbar(im)
+    cbar.set_label("Accuracy", rotation=-90, va="bottom")
     plt.show()
 
 
