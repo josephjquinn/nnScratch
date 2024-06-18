@@ -110,8 +110,9 @@ class nn:
         self.val_losses = []
         self.accuracies = []
         self.batch_loss = []
-        plt.ion()
-        plt.figure(figsize=(15, 6))
+        if plot or animate:
+            plt.ion()
+            plt.figure(figsize=(15, 6))
 
         if mini_batch:
             num_batches = X_train.shape[1] // batch_size
