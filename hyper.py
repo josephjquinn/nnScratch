@@ -217,7 +217,7 @@ def optim_act_init():
 
 def optim_lr():
     hyper = []
-    for i in np.arange(0.01, 1.0, 0.05):
+    for i in np.arange(0.01, 1.0, 0.1):
         net = nn(
             input_nodes=784,
             hidden_nodes=10,
