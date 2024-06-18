@@ -34,9 +34,9 @@ This repository contains a simple neural network implementation in Python, desig
 <img width="700" alt="optimi" src="https://github.com/josephjquinn/nnScratch/assets/81782398/241186bc-f740-440d-ae8b-595646484c4b">
 
 ### Hyperparameters
+<img width="700" alt="hyperparams" src="https://github.com/josephjquinn/nnScratch/assets/81782398/69164a68-8e8b-46c4-b5a3-519731be5293">
+<img width="700" alt="hypergraph" src="https://github.com/josephjquinn/nnScratch/assets/81782398/2c5a6016-d258-4846-b96c-d3a410c1aec0">
 
-<img width="700" alt="hypergraph" src="https://github.com/josephjquinn/nnScratch/assets/81782398/52bc020c-e892-42cf-806c-1182ebf4171e">
-<img width="700" alt="hyper" src="https://github.com/josephjquinn/nnScratch/assets/81782398/cf359031-cec3-4cc3-a993-86ba6c0b4c57">
 
 ### Installation
 
