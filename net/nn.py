@@ -193,8 +193,8 @@ class nn:
         if mb:
             plt.subplot(2, 2, (3, 4))
             plt.plot(self.batch_loss, linewidth=0.2)
-            plt.title("Batch Loss")
-            plt.xlabel("Batch")
+            plt.title("Step Loss")
+            plt.xlabel("Step")
             plt.ylabel("Loss")
             plt.subplots_adjust(hspace=0.4)
         plt.show()
