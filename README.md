@@ -1,5 +1,12 @@
 # Fully Connected Neural Network using Numpy & Calculus
 
+![f12322](https://github.com/josephjquinn/nnScratch/assets/81782398/6a94a5a4-8d7e-47f3-846b-50144b225212)
+![f1234](https://github.com/josephjquinn/nnScratch/assets/81782398/6cef7511-62c5-4e66-a095-4fb96ece4a39)
+![f231](https://github.com/josephjquinn/nnScratch/assets/81782398/d7bf6e2c-2512-4136-ad0e-43652c7bff9a)
+![f123](https://github.com/josephjquinn/nnScratch/assets/81782398/b53781f5-bf3f-4eab-8af7-260971705ac6)
+![f21](https://github.com/josephjquinn/nnScratch/assets/81782398/691a4646-fa72-4669-9dc3-293ff20ebd7a)
+
+
 This project was a learning project for me to better understand the fundamentals of Neural Networks and their architecture. I created this class without using any machine learning libraries doing most of the calculations by hand.
 This repository contains a simple neural network implementation in Python, designed for educational purposes. The neural network supports customizable architecture and training options.
 
