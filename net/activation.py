@@ -8,7 +8,7 @@ def sigmoid(Z, deriv=False):
         return 1 / (1 + np.exp(-Z))
 
 
-def ReLU(Z, deriv=False):
+def relu(Z, deriv=False):
     if deriv:
         return Z > 0
     else:

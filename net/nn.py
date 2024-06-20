@@ -1,6 +1,6 @@
 from net.loss import cross_entropy
 import numpy as np
-from net.activation import ReLU, sigmoid, softmax, leaky_relu
+from net.activation import relu, sigmoid, softmax, leaky_relu
 from matplotlib import pyplot as plt
 
 
@@ -25,7 +25,7 @@ class nn:
         if act == "sigmoid":
             self.act = sigmoid
         elif act == "relu":
-            self.act = ReLU
+            self.act = relu
         elif act == "leaky":
             self.act = leaky_relu
         else:
@@ -238,3 +238,44 @@ class nn:
         pred = np.argmax(A2, axis=0)
         accuracy = np.mean(pred == Y)
         return accuracy
+
+    def save_model(self, path):
+        model_params = {
+            "W1": self.W1,
+            "b1": self.b1,
+            "W2": self.W2,
+            "b2": self.b2,
+            "labels": self.labels,
+            "act": self.act.__name__,
+            "input_nodes": self.input_nodes,
+            "hidden_nodes": self.hidden_nodes,
+            "output_nodes": self.output_nodes,
+            "initialization": self.initialization,
+        }
+        np.savez(path, **model_params)
+        print(f"Model saved to {path}")
+
+    def load_model(self, path):
+        loaded_params = np.load(path, allow_pickle=True)
+        self.W1 = loaded_params["W1"]
+        self.b1 = loaded_params["b1"]
+        self.W2 = loaded_params["W2"]
+        self.b2 = loaded_params["b2"]
+        self.labels = loaded_params["labels"].item()
+        activation_name = loaded_params["act"]
+        print(activation_name)
+        self.input_nodes = loaded_params["input_nodes"]
+        self.hidden_nodes = loaded_params["hidden_nodes"]
+        self.output_nodes = loaded_params["output_nodes"]
+        self.initialization = loaded_params["initialization"]
+
+        if activation_name == "sigmoid":
+            self.act = sigmoid
+        elif activation_name == "relu":
+            self.act = relu
+        elif activation_name == "leaky":
+            self.act = leaky_relu
+        else:
+            raise ValueError("Invalid activation function name loaded from file")
+
+        print(f"Model loaded from {path}")
