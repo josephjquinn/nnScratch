@@ -6,6 +6,21 @@ This repository contains a simple neural network implementation in Python, desig
 <img width="1400" alt="image" src="https://github.com/josephjquinn/nnScratch/assets/81782398/6d4ea186-1baf-44cf-96c3-cfda0a8138dc">
 <img width="400" alt="image" src="https://github.com/josephjquinn/nnScratch/assets/81782398/bac57e3d-94e1-437e-9816-2a624d236ec2">
 <img width="400" alt="image" src="https://github.com/josephjquinn/nnScratch/assets/81782398/5c7f234b-fe49-4ac0-b8d5-b764a869e502">
+### Results 
+
+![Figure_1](https://github.com/josephjquinn/nnScratch/assets/81782398/21b95943-6276-4d1f-81c8-d9eb669ccdc9)
+![f12](https://github.com/josephjquinn/nnScratch/assets/81782398/5f8d7c30-fbdf-4c69-986f-0667a4738ff4)
+![f11](https://github.com/josephjquinn/nnScratch/assets/81782398/72c06edf-6fea-4a85-8360-9c237a28446a)
+![f10](https://github.com/josephjquinn/nnScratch/assets/81782398/68f93074-4f99-4bdb-9549-b5ce88931c5a)
+![f9](https://github.com/josephjquinn/nnScratch/assets/81782398/bdf1ab15-ebc7-4cc7-9411-9cd47af2b7ad)
+![f8](https://github.com/josephjquinn/nnScratch/assets/81782398/90ae53e2-ce1b-43fa-8856-213d4916fcb9)
+![f7](https://github.com/josephjquinn/nnScratch/assets/81782398/74da8414-bbf4-4dc6-a85a-19a083c8f202)
+![f6](https://github.com/josephjquinn/nnScratch/assets/81782398/22f167e8-a1b1-4289-8936-04e9c31f7883)
+![f5](https://github.com/josephjquinn/nnScratch/assets/81782398/bd986644-c537-4c7c-8948-ff186da89b1c)
+![f4](https://github.com/josephjquinn/nnScratch/assets/81782398/1c486eb5-f128-4749-9d9f-a319372621e4)
+![f3](https://github.com/josephjquinn/nnScratch/assets/81782398/c011c8e2-920d-42e5-a3b5-ab6bf8a55d94)
+![f2](https://github.com/josephjquinn/nnScratch/assets/81782398/09d7559d-c733-4d5a-92a5-e745463e9aeb)
+
 
 ### Features
 
