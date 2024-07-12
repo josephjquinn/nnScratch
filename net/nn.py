@@ -2,6 +2,7 @@ from net.loss import cross_entropy
 import numpy as np
 from net.activation import relu, sigmoid, softmax, leaky_relu
 from matplotlib import pyplot as plt
+import json
 
 
 class nn:
@@ -105,6 +106,7 @@ class nn:
         animate=False,
         plot=True,
         cmd=True,
+        save=False,
     ):
         self.train_losses = []
         self.val_losses = []
@@ -161,6 +163,8 @@ class nn:
         plt.ioff()
         if plot:
             plt.show()
+        if save:
+            self.save_training_data(save)
 
     def print_epoch_result(self, epoch, acc, train_loss, val_loss):
         print("_________________________")
@@ -279,3 +283,16 @@ class nn:
             raise ValueError("Invalid activation function name loaded from file")
 
         print(f"Model loaded from {path}")
+
+    def save_training_data(self, path):
+        train_data = {
+            "Train_Loss": self.train_losses,
+            "Val_Loss": self.val_losses,
+            "Step_Loss": self.batch_loss,
+            "Accuracy": self.accuracies,
+        }
+
+        with open(path, "w") as json_file:
+            json.dump(train_data, json_file)
+
+        print(f"Training Data saved to {path}")
