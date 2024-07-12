@@ -39,12 +39,10 @@ def plot_hyper(data, hyperparam, key=None):
             tmp.append(key[i])
         param = tmp
     acc = data[:, 1]
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(7, 5))
     plt.plot(param, acc, marker="o")
     plt.xlabel(hyperparam)
     plt.ylabel("Test Accuracy")
-    plt.title(f"Test Accuracy vs {hyperparam}")
-    plt.grid(True)
     plt.show()
 
 
@@ -52,15 +50,18 @@ def plot_hyper_loss(data, param, key=None):
     losses = data[:, 2:]
     labels = data[:, 0]
     epochs = losses[0].size
-    plt.figure(figsize=(10, 6))
+    plt.figure(figsize=(7, 5))
     for label, loss in zip(labels, losses):
         if key:
             label = int(label)
         plt.plot(range(epochs), loss, label=key[label] if key else label)
     plt.ylabel("Loss")
-    plt.title("Validation Loss over Epochs")
-    plt.legend(title=param)
-    plt.grid(True)
+    plt.xlabel("Epoch")
+
+    plt.legend(
+        title=param,
+        ncol=4,
+    )
     plt.show()
 
 
@@ -76,7 +77,7 @@ def plot_dual(data, title, xaxi, yaxi, x_key=None, y_key=None):
     if x_key:
         x_labels = [x_key[int(idx)] for idx in unique_x]
     else:
-        x_labels = [f"{xi:.3f}" for xi in np.unique(x)]
+        x_labels = [f"{int(xi)}" for xi in np.unique(x)]
 
     if y_key:
         y_labels = [y_key[int(idx)] for idx in unique_y]
@@ -89,7 +90,7 @@ def plot_dual(data, title, xaxi, yaxi, x_key=None, y_key=None):
             mask = (x == unique_x[i]) & (y == unique_y[j])
             Z[j, i] = z[mask][0] if np.any(mask) else np.nan
 
-    fig, ax = plt.subplots(figsize=(10, 6))
+    fig, ax = plt.subplots(figsize=(7, 5))
     im = ax.imshow(Z, cmap="viridis", origin="lower")
 
     ax.set_xticks(np.arange(len(unique_x)))
@@ -109,12 +110,11 @@ def plot_dual(data, title, xaxi, yaxi, x_key=None, y_key=None):
                 va="center",
                 color="w",
             )
-    ax.set_title(title)
     ax.set_xlabel(xaxi)
-    ax.set_ylabel(yaxi, rotation=-90, va="top")
+    ax.set_ylabel(yaxi, va="top", labelpad=20)
     fig.tight_layout()
     cbar = plt.colorbar(im)
-    cbar.set_label("Accuracy", rotation=-90, va="bottom")
+    cbar.set_label("Accuracy", va="bottom", labelpad=20)
     plt.show()
 
 
@@ -382,8 +382,8 @@ plot_hyper(data, "Learning Rate")
 plot_hyper_loss(data, "Learning Rate")
 
 data = np.loadtxt(hl_path)
-plot_hyper(data, "Hidden Layer Neurons Count")
-plot_hyper_loss(data, "Hidden Layer Neurons Count")
+plot_hyper(data, "Hidden Layer Neuron Count")
+plot_hyper_loss(data, "Hidden Layer Neuron Count")
 
 
 data = np.loadtxt(lr_hl_path)

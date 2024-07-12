@@ -114,7 +114,7 @@ class nn:
         self.batch_loss = []
         if plot or animate:
             plt.ion()
-            plt.figure(figsize=(15, 6))
+            plt.figure(figsize=(10, 6))
 
         if mini_batch:
             num_batches = X_train.shape[1] // batch_size
@@ -181,7 +181,7 @@ class nn:
             rows = 2
         plt.clf()
         plt.subplot(rows, 2, 1)
-        plt.title("Epoch Loss")
+        plt.title("Loss")
         plt.xlabel("Epoch")
         plt.ylabel("Loss")
         plt.plot(self.train_losses, "-r", label="train")
@@ -192,7 +192,7 @@ class nn:
         plt.title("Accuracy")
         plt.xlabel("Epoch")
         plt.ylabel("Accuracy")
-        plt.plot(self.accuracies)
+        plt.plot(self.accuracies, label="test")
         plt.ylim(0, 1)
         if mb:
             plt.subplot(2, 2, (3, 4))
