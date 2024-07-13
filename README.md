@@ -32,12 +32,14 @@ The training process includes options for mini-batch training with customizable 
 
 Additionally, this project includes a hyperparameter optimization script to optimize and plot hyperparameters such as hidden layer neurons, learning rate, activation function, initialization method, and batch size.
 
-<img width=350 src="./imgs/i_plot.png">
-<img width=350 src="./imgs/hl_plot.png">
-<img width=350 src="./imgs/lr_plot.png">
-<img width=350 src="./imgs/act_plot.png">
-<img width=350 src="./imgs/avi_plot.png">
-<img width=350 src="./imgs/lrvshl_plot.png">
+<div style="display: flex; flex-wrap: wrap; gap: 10px;">
+  <img width="300" src="./imgs/i_plot.png">
+  <img width="300" src="./imgs/hl_plot.png">
+  <img width="300" src="./imgs/lr_plot.png">
+  <img width="300" src="./imgs/act_plot.png">
+  <img width="300" src="./imgs/avi_plot.png">
+  <img width="300" src="./imgs/lrvshl_plot.png">
+</div>
 
 ### Installation
 
