@@ -33,7 +33,7 @@ class nn:
             raise ValueError("Invalid activation function")
 
     def initialize_parameters(self):
-        if self.initialization == "norm":
+        if self.initialization == "xavier":
             self.W1 = np.random.normal(
                 size=(self.hidden_nodes, self.input_nodes)
             ) * np.sqrt(1.0 / self.input_nodes)

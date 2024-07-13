@@ -126,7 +126,7 @@ def optim_hl():
             hidden_nodes=i,
             output_nodes=10,
             act="relu",
-            initialization="norm",
+            initialization="xavier",
             labels=None,
         )
         net.train(
@@ -156,7 +156,7 @@ def optim_lr_hl():
                 hidden_nodes=i,
                 output_nodes=10,
                 act="relu",
-                initialization="norm",
+                initialization="xavier",
                 labels=None,
             )
             net.train(
@@ -180,7 +180,7 @@ def optim_lr_hl():
 def optim_act_init():
     hyper = []
     act_fns = ["sigmoid", "relu", "leaky"]
-    init_methods = ["norm", "rand", "He"]
+    init_methods = ["xavier", "rand", "He"]
     for idx, fn in enumerate(act_fns):
         for jdx, init in enumerate(init_methods):
             net = nn(
@@ -217,7 +217,7 @@ def optim_lr():
             hidden_nodes=10,
             output_nodes=10,
             act="relu",
-            initialization="norm",
+            initialization="xavier",
             labels=None,
         )
         net.train(
@@ -299,7 +299,7 @@ def optim_e():
 
 def optim_init():
     hyper = []
-    init_methods = ["norm", "rand", "He"]
+    init_methods = ["xavier", "rand", "He"]
     for idx, init in enumerate(init_methods):
         net = nn(
             input_nodes=784,
@@ -365,7 +365,7 @@ processor = DataProcessor("./data/numeric-mnist.csv")
 processor.split_data()
 processor.get_features_and_labels()
 
-init_methods = ["norm", "rand", "He"]
+init_methods = ["xavier", "rand", "He"]
 act_fns = ["sigmoid", "relu", "leaky"]
 
 # optim_hl()

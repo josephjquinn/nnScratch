@@ -40,7 +40,7 @@ net = nn(
     hidden_nodes=25,
     output_nodes=10,
     act="relu",
-    initialization="norm",
+    initialization="xavier",
     labels=numeric_labels,
 )
 
