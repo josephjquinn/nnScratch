@@ -1,7 +1,7 @@
 # Fully Connected Neural Network using Numpy & Calculus
 
 I developed this feedforward neural network class entirely from scratch, without using machine learning libraries, performing the propagation equations manually using calculus fundamentals.
-This network features customizable architecture and training options, including sigmoid, ReLU, and for educational purposes.
+This network features customizable architecture and training options, and a hyperparameter optimization script for automatically fine tuning network parameters.
 
 Key features of the implementation include support for ReLU, Sigmoid, and Leaky ReLU activation functions, a cross-entropy loss function for classification tasks, and initialization methods such as Xavier, He, and Numpy rand.
 The training process includes options for mini-batch training with customizable batch size and real-time plots of training loss, validation loss, and accuracy, and single and grid predictions on unseen data.
